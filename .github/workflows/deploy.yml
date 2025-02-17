@@ -35,4 +35,5 @@ jobs:
             docker run -d --name pruebas_angular -p 80:80 pruebas_angular
 
             # Eliminar repositorio
+            cd ..
             rm -rf pruebas_angular
