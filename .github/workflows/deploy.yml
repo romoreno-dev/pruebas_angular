@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             # Ir a la carpeta home y clonar el repositorio
-            cd /home/${{ secrets.SSH_USER }}
+            cd ${{ secrets.SSH_USER }}
             rm -rf pruebas_angular
             git clone git@github.com:romoreno-dev/pruebas_angular.git pruebas_angular
             cd pruebas_angular
