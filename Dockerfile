@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de Angular
-FROM node:17 AS build
+FROM node:18 AS build
 
 WORKDIR /app
 
@@ -10,13 +10,14 @@ COPY . .
 
 RUN npm run build --prod
 
-  # Etapa 2: Servidor Nginx
+# Etapa 2: Servidor Nginx
 FROM nginx:alpine
 
-COPY --from=build /app/dist/pruebas_angular /usr/share/nginx/html
+COPY --from=build /app/dist/pruebas_angular/browser/ /usr/share/nginx/html/
+#COPY /dist/pruebas_angular/browser /usr/share/nginx/html
 
-  # Copiar configuración personalizada de Nginx (opcional)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copiar configuración personalizada de Nginx (opcional)
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

@@ -3,6 +3,8 @@ services:
   angular-app:
     build: .
     ports:
-      - "8080:80"
-    container_name: angular-nginx
+      - "80:80"
+#    volumes:
+#      - ./dist/pruebas_angular/browser:/usr/share/nginx/html
+#    container_name: angular-nginx
     restart: always

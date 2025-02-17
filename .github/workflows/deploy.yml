@@ -1,0 +1,35 @@
+name: Deploy Angular to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: 🔑 Conectarse al VPS y desplegar
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            # Ir a la carpeta home y clonar el repositorio
+            cd /home/${{ secrets.SSH_USER }}
+            rm -rf pruebas_angular
+            git clone git@github.com:romoreno-dev/pruebas_angular.git pruebas_angular
+            cd pruebas_angular
+
+            # Construir la imagen Docker
+            docker stop pruebas_angular || true
+            docker rm pruebas_angular || true
+            docker build -t pruebas_angular .
+
+            # Ejecutar el contenedor en el puerto 80
+            docker run -d --name pruebas_angular -p 80:80 pruebas_angular
